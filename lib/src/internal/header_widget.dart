@@ -39,6 +39,7 @@ class HeaderWidget<ROW> extends StatelessWidget {
       final EasyTableColumn<ROW> column = model.columnAt(columnIndex);
 
       final Widget cell = EasyTableHeaderCell<ROW>(
+          columnMinWidth: model.minColumnWidth,
           key: ValueKey<int>(columnIndex),
           model: model,
           column: column,
