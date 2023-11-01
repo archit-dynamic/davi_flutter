@@ -12,13 +12,15 @@ class EasyTableHeaderCell<ROW> extends StatefulWidget {
       required this.model,
       required this.column,
       required this.resizable,
-      required this.multiSort})
+      required this.multiSort,
+      this.columnMinWidth})
       : super(key: key);
 
   final EasyTableModel<ROW> model;
   final EasyTableColumn<ROW> column;
   final bool resizable;
   final bool multiSort;
+  final double? columnMinWidth;
 
   @override
   State<StatefulWidget> createState() => _EasyTableHeaderCellState();
@@ -150,6 +152,10 @@ class _EasyTableHeaderCellState extends State<EasyTableHeaderCell> {
   void _onResizeDragUpdate(DragUpdateDetails details) {
     final Offset pos = details.globalPosition;
     final double diff = pos.dx - _lastDragPos;
+    if (widget.columnMinWidth != null &&
+        widget.column.width + diff < widget.columnMinWidth!) {
+      return;
+    }
     widget.column.width += diff;
     _lastDragPos = pos.dx;
   }
