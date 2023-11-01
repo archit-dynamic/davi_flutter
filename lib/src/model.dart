@@ -11,21 +11,22 @@ import 'package:flutter/widgets.dart';
 class EasyTableModel<ROW> extends ChangeNotifier {
   factory EasyTableModel(
       {List<ROW> rows = const [],
-      List<EasyTableColumn<ROW>> columns = const []}) {
+      List<EasyTableColumn<ROW>> columns = const [],
+      double? minmColumnWidth}) {
     List<ROW> cloneList = List.from(rows);
     EasyTableModel<ROW> model =
         EasyTableModel._(cloneList, UnmodifiableListView(cloneList));
     for (EasyTableColumn<ROW> column in columns) {
       model.addColumn(column);
     }
-    return model;
+    return model..minColumnWidth = minmColumnWidth;
   }
 
   EasyTableModel._(this._originalRows, this._rows);
 
   final List<EasyTableColumn<ROW>> _columns = [];
   final List<ROW> _originalRows;
-
+  double? minColumnWidth;
   final List<EasyTableColumn<ROW>> _sortedColumns = [];
 
   /// Gets the sorted columns.
