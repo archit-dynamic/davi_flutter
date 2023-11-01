@@ -219,6 +219,22 @@ class _EasyTableState<ROW> extends State<EasyTable<ROW>> {
             _scrollControllers.vertical.position
                 .pointerScroll(pointerSignal.scrollDelta.dy);
           }
+          debugPrint("checking unpinned horizontal ");
+          if (pointerSignal is PointerScrollEvent &&
+              _scrollControllers.unpinnedHorizontal.hasClients &&
+              pointerSignal.scrollDelta.dx != 0) {
+             debugPrint("scrolling unpinned horizontal ");
+            _scrollControllers.unpinnedHorizontal.position
+                .pointerScroll(pointerSignal.scrollDelta.dx);
+          }
+          debugPrint("checking pinned horizontal ");
+          if (pointerSignal is PointerScrollEvent &&
+              _scrollControllers.leftPinnedHorizontal.hasClients &&
+              pointerSignal.scrollDelta.dx != 0) {
+             debugPrint("scrolling pinned horizontal ");
+            _scrollControllers.leftPinnedHorizontal.position
+                .pointerScroll(pointerSignal.scrollDelta.dx);
+          }
         },
         onPointerPanZoomUpdate: (PointerPanZoomUpdateEvent event) {
           // trackpad on macOS
