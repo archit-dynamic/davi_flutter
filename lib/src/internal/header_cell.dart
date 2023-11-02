@@ -31,6 +31,7 @@ class DaviHeaderCell<DATA> extends StatefulWidget {
 
 class _DaviHeaderCellState extends State<DaviHeaderCell> {
   bool _hovered = false;
+  bool _headerCellHovered = false;
   double _lastDragPos = 0;
 
   @override
@@ -80,6 +81,16 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
       }
     }
 
+    if (widget.column.trailing != null) {
+      var trailingWidget = widget.column.trailing;
+      
+        trailingWidget = Visibility(
+          visible: _headerCellHovered || widget.column.showTrailingIcon == true,
+            child: trailingWidget!);
+      
+      children.add(trailingWidget);
+    }
+
     Widget header = AxisLayout(
         axis: Axis.horizontal,
         crossAlignment: CrossAlignment.stretch,
@@ -87,6 +98,17 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
     final EdgeInsets? padding = widget.column.headerPadding ?? theme.padding;
     if (padding != null) {
       header = Padding(padding: padding, child: header);
+    }
+
+    if(widget.column.trailing != null){
+      header = MouseRegion(
+          onEnter: (e) => setState(() {
+            _headerCellHovered = true;
+          }),
+          onExit: (e) => setState(() {
+            _headerCellHovered = false;
+          }),
+          child: header);
     }
 
     if (widget.column.sortable) {
@@ -112,7 +134,7 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
         readOnly: true,
         enabled: true,
         label: 'header ${widget.columnIndex}',
-        child: ClipRect(child: header));
+        child: ClipRect(key: ValueKey(_headerCellHovered), child: header));
   }
 
   Widget _textWidget(BuildContext context) {
