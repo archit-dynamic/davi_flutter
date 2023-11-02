@@ -71,9 +71,9 @@ class DaviColumn<DATA> extends ChangeNotifier {
   final String? name;
 
   final Widget? leading;
-  final Widget? trailing,
-  final bool? showTrailingOnHover,
-  final bool? showTrailingIcon,
+  final Widget? trailing;
+  final bool? showTrailingOnHover;
+  final bool? showTrailingIcon;
   final EdgeInsets? cellPadding;
 
   /// Padding for the header widget.
