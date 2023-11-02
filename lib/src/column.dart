@@ -35,6 +35,9 @@ class DaviColumn<DATA> extends ChangeNotifier {
       this.fractionDigits,
       this.cellBuilder,
       this.leading,
+      this.trailing,
+      this.showTrailingOnHover,
+      this.showTrailingIcon,
       DaviDataComparator<DATA>? dataComparator,
       this.pinStatus = PinStatus.none,
       DaviIntValueMapper<DATA>? intValue,
@@ -68,6 +71,9 @@ class DaviColumn<DATA> extends ChangeNotifier {
   final String? name;
 
   final Widget? leading;
+  final Widget? trailing,
+  final bool? showTrailingOnHover,
+  final bool? showTrailingIcon,
   final EdgeInsets? cellPadding;
 
   /// Padding for the header widget.
