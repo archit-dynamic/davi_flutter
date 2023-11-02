@@ -15,7 +15,8 @@ class DaviHeaderCell<DATA> extends StatefulWidget {
       required this.resizable,
       required this.tapToSortEnabled,
       required this.columnIndex,
-      required this.isMultiSorted})
+      required this.isMultiSorted,
+      this.columnMinWidth})
       : super(key: key);
 
   final DaviModel<DATA> model;
@@ -24,6 +25,7 @@ class DaviHeaderCell<DATA> extends StatefulWidget {
   final bool tapToSortEnabled;
   final int columnIndex;
   final bool isMultiSorted;
+  final double? columnMinWidth;
 
   @override
   State<StatefulWidget> createState() => _DaviHeaderCellState();
@@ -183,6 +185,10 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
   void _onResizeDragUpdate(DragUpdateDetails details) {
     final Offset pos = details.globalPosition;
     final double diff = pos.dx - _lastDragPos;
+    if (widget.columnMinWidth != null &&
+        widget.column.width + diff < widget.columnMinWidth!) {
+      return;
+    }
     widget.column.width += diff;
     _lastDragPos = pos.dx;
   }
