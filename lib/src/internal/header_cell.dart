@@ -61,27 +61,27 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
         expand: theme.expandableName ? 1 : 0,
         child: _textWidget(context)));
 
-    final DaviSort? sort = widget.column.sort;
-    if (sort != null) {
-      Widget sortIconWidget =
-          theme.sortIconBuilder(sort.direction, theme.sortIconColors);
-      children.add(Align(
-        alignment: widget.column.headerAlignment ?? theme.alignment,
-        child: sortIconWidget,
-      ));
+    // final DaviSort? sort = widget.column.sort;
+    // if (sort != null) {
+    //   Widget sortIconWidget =
+    //       theme.sortIconBuilder(sort.direction, theme.sortIconColors);
+    //   children.add(Align(
+    //     alignment: widget.column.headerAlignment ?? theme.alignment,
+    //     child: sortIconWidget,
+    //   ));
 
-      if (widget.isMultiSorted) {
-        if (theme.sortPriorityGap != null) {
-          children.add(SizedBox(width: theme.sortPriorityGap));
-        }
-        children.add(Align(
-            alignment: widget.column.headerAlignment ?? theme.alignment,
-            child: Text(widget.column.sortPriority!.toString(),
-                style: TextStyle(
-                    color: theme.sortPriorityColor,
-                    fontSize: theme.sortPrioritySize))));
-      }
-    }
+    //   if (widget.isMultiSorted) {
+    //     if (theme.sortPriorityGap != null) {
+    //       children.add(SizedBox(width: theme.sortPriorityGap));
+    //     }
+    //     children.add(Align(
+    //         alignment: widget.column.headerAlignment ?? theme.alignment,
+    //         child: Text(widget.column.sortPriority!.toString(),
+    //             style: TextStyle(
+    //                 color: theme.sortPriorityColor,
+    //                 fontSize: theme.sortPrioritySize))));
+    //   }
+    // }
 
     if (widget.column.trailing != null) {
       var trailingWidget = widget.column.trailing;
