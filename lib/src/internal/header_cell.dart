@@ -8,15 +8,14 @@ import 'package:meta/meta.dart';
 @internal
 class DaviHeaderCell<DATA> extends StatefulWidget {
   /// Builds a header cell.
-  const DaviHeaderCell(
-      {Key? key,
-      required this.model,
-      required this.column,
-      required this.resizable,
-      required this.tapToSortEnabled,
-      required this.columnIndex,
-      required this.isMultiSorted,
-      this.columnMinWidth})
+  const DaviHeaderCell({Key? key,
+    required this.model,
+    required this.column,
+    required this.resizable,
+    required this.tapToSortEnabled,
+    required this.columnIndex,
+    required this.isMultiSorted,
+    this.columnMinWidth})
       : super(key: key);
 
   final DaviModel<DATA> model;
@@ -38,7 +37,9 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
 
   @override
   Widget build(BuildContext context) {
-    HeaderCellThemeData theme = DaviTheme.of(context).headerCell;
+    HeaderCellThemeData theme = DaviTheme
+        .of(context)
+        .headerCell;
 
     final bool resizing = widget.model.columnInResizing == widget.column;
     final bool sortEnabled = widget.tapToSortEnabled &&
@@ -59,12 +60,13 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
     children.add(AxisLayoutChild(
         shrink: theme.expandableName ? 0 : 1,
         expand: theme.expandableName ? 1 : 0,
-        child: _textWidget(context)));
+        child: _textWidget(context)
+    ));
 
     final DaviSort? sort = widget.column.sort;
     if (sort != null) {
       Widget sortIconWidget =
-          theme.sortIconBuilder(sort.direction, theme.sortIconColors);
+      theme.sortIconBuilder(sort.direction, theme.sortIconColors);
       children.add(Align(
         alignment: widget.column.headerAlignment ?? theme.alignment,
         child: sortIconWidget,
@@ -85,11 +87,11 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
 
     if (widget.column.trailing != null) {
       var trailingWidget = widget.column.trailing;
-      
-        trailingWidget = Visibility(
-          visible: _headerCellHovered || widget.column.showTrailingIcon == true,
-            child: trailingWidget!);
-      
+
+      trailingWidget = Visibility(
+          visible: _headerCellHovered || _hovered || widget.column.showTrailingIcon == true,
+          child: trailingWidget!);
+
       children.add(trailingWidget);
     }
 
@@ -102,16 +104,18 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
       header = Padding(padding: padding, child: header);
     }
 
-    if(widget.column.trailing != null){
-      header = MouseRegion(
-          onEnter: (e) => setState(() {
-            _headerCellHovered = true;
-          }),
-          onExit: (e) => setState(() {
-            _headerCellHovered = false;
-          }),
-          child: header);
-    }
+    // if (widget.column.trailing != null) {
+    //   header = MouseRegion(
+    //       onEnter: (e) =>
+    //           setState(() {
+    //             _headerCellHovered = true;
+    //           }),
+    //       onExit: (e) =>
+    //           setState(() {
+    //             _headerCellHovered = false;
+    //           }),
+    //       child: header);
+    // }
 
     if (widget.column.sortable) {
       header = MouseRegion(
@@ -123,14 +127,23 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
     }
 
     if (resizable) {
-      header = Stack(clipBehavior: Clip.none, children: [
+      header = MouseRegion(
+          onEnter: (e) =>
+              setState(() {
+                _hovered = true;
+              }),
+          onExit: (e) =>
+              setState(() {
+                _hovered = false;
+              }),
+          child: Stack(clipBehavior: Clip.none, children: [
         Positioned.fill(child: header),
         Positioned(
             top: 0,
             bottom: 0,
             right: 0,
             child: _resizeWidget(context: context, resizing: resizing))
-      ]);
+      ]));
     }
     return Semantics(
         readOnly: true,
@@ -154,24 +167,36 @@ class _DaviHeaderCellState extends State<DaviHeaderCell> {
 
   Widget _resizeWidget({required BuildContext context, required resizing}) {
     DaviThemeData theme = DaviTheme.of(context);
-    return MouseRegion(
-        onEnter: (e) => setState(() {
-              _hovered = true;
-            }),
-        onExit: (e) => setState(() {
-              _hovered = false;
-            }),
-        cursor: SystemMouseCursors.resizeColumn,
-        child: GestureDetector(
-            onHorizontalDragStart: _onResizeDragStart,
-            onHorizontalDragEnd: _onResizeDragEnd,
-            onHorizontalDragUpdate: _onResizeDragUpdate,
-            behavior: HitTestBehavior.opaque,
-            child: Container(
-                width: theme.headerCell.resizeAreaWidth,
-                color: _hovered || resizing
-                    ? theme.headerCell.resizeAreaHoverColor
-                    : null)));
+    return GestureDetector(
+        onHorizontalDragStart: _onResizeDragStart,
+        onHorizontalDragEnd: _onResizeDragEnd,
+        onHorizontalDragUpdate: _onResizeDragUpdate,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+            width: theme.headerCell.resizeAreaWidth,
+            color: _hovered || resizing
+                ? theme.headerCell.resizeAreaHoverColor
+                : null));
+    // return MouseRegion(
+    //     onEnter: (e) =>
+    //         setState(() {
+    //           _hovered = true;
+    //         }),
+    //     onExit: (e) =>
+    //         setState(() {
+    //           _hovered = false;
+    //         }),
+    //     cursor: SystemMouseCursors.resizeColumn,
+    //     child: GestureDetector(
+    //         onHorizontalDragStart: _onResizeDragStart,
+    //         onHorizontalDragEnd: _onResizeDragEnd,
+    //         onHorizontalDragUpdate: _onResizeDragUpdate,
+    //         behavior: HitTestBehavior.opaque,
+    //         child: Container(
+    //             width: theme.headerCell.resizeAreaWidth,
+    //             color: _headerCellHovered || resizing
+    //                 ? theme.headerCell.resizeAreaHoverColor
+    //                 : null)));
   }
 
   void _onResizeDragStart(DragStartDetails details) {
