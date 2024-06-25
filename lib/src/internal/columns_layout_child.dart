@@ -21,7 +21,7 @@ class ColumnsLayoutChild<DATA>
         renderObject.parentData! as ColumnsLayoutParentData;
     if (index != parentData.index) {
       parentData.index = index;
-      renderObject.parent?.markNeedsLayout();
+      (renderObject.parent as RenderObject).markNeedsLayout();
     }
   }
 

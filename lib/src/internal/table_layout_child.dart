@@ -114,7 +114,7 @@ class TableLayoutChild<DATA> extends ParentDataWidget<TableLayoutParentData> {
         renderObject.parentData! as TableLayoutParentData;
     if (id != parentData.id) {
       parentData.id = id;
-      renderObject.parent?.markNeedsLayout();
+      (renderObject.parent as RenderObject).markNeedsLayout();
     }
   }
 

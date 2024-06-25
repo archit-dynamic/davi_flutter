@@ -23,7 +23,7 @@ class RowsLayoutChild extends ParentDataWidget<RowsLayoutParentData> {
     if (index != parentData.index || last != parentData.last) {
       parentData.index = index;
       parentData.last = last;
-      renderObject.parent?.markNeedsLayout();
+      (renderObject.parent as RenderObject).markNeedsLayout();
     }
   }
 
