@@ -201,7 +201,9 @@ class _DaviState<DATA> extends State<Davi<DATA>> {
       if (theme.row.hoverBackground != null ||
           theme.row.hoverForeground != null) {
         table = MouseRegion(
-            onExit: (event) => _setHoveredRowIndex(null), child: table);
+            cursor: SystemMouseCursors.click,
+            onExit: (event) => _setHoveredRowIndex(null),
+            child: table);
       }
 
       table = Listener(
@@ -217,6 +219,14 @@ class _DaviState<DATA> extends State<Davi<DATA>> {
               pointerSignal.scrollDelta.dy != 0) {
             _scrollControllers.vertical.position
                 .pointerScroll(pointerSignal.scrollDelta.dy);
+          }
+          debugPrint("checking unpinned horizontal ");
+          if (pointerSignal is PointerScrollEvent &&
+              _scrollControllers.unpinnedHorizontal.hasClients &&
+              pointerSignal.scrollDelta.dx != 0) {
+             debugPrint("scrolling unpinned horizontal ");
+            _scrollControllers.unpinnedHorizontal.position
+                .pointerScroll(pointerSignal.scrollDelta.dx);
           }
         },
         onPointerPanZoomUpdate: (PointerPanZoomUpdateEvent event) {

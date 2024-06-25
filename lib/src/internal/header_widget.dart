@@ -41,6 +41,7 @@ class HeaderWidget<DATA> extends StatelessWidget {
       final DaviColumn<DATA> column = model.columnAt(columnIndex);
 
       final Widget cell = DaviHeaderCell<DATA>(
+          columnMinWidth: model.minColumnWidth,
           key: ValueKey<int>(columnIndex),
           model: model,
           column: column,

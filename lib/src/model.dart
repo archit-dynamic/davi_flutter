@@ -15,11 +15,13 @@ class DaviModel<DATA> extends ChangeNotifier {
   DaviModel(
       {List<DATA> rows = const [],
       List<DaviColumn<DATA>> columns = const [],
+      double? minmColumnWidth,
       this.ignoreDataComparators = false,
       this.alwaysSorted = false,
       this.multiSortEnabled = false,
       this.onSort}) {
     _originalRows = List.from(rows);
+    minColumnWidth = minmColumnWidth;
     addColumns(columns);
     _updateRows(notify: false);
   }
@@ -27,6 +29,7 @@ class DaviModel<DATA> extends ChangeNotifier {
   late List<DATA> _rows;
   final List<DaviColumn<DATA>> _columns = [];
   late final List<DATA> _originalRows;
+  double? minColumnWidth;
 
   /// The event that will be triggered at each sorting.
   OnSortCallback<DATA>? onSort;
